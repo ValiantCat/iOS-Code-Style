@@ -1,0 +1,936 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta name="renderer" content="webkit"/>
+    <title>链家网Swift编码规范v1.0.0</title>
+    <link rel="stylesheet" href="data:text/css;base64,CiAgICA6Oi13ZWJraXQtc2Nyb2xsYmFyIHsKICAgICAgICB3aWR0aDo4cHg7CiAgICAgICAgbWFyZ2luOjAgMXB4OwogICAgICAgIGJhY2tncm91bmQ6ICNmZGZkZmQ7CiAgICB9CiAgICA6Oi13ZWJraXQtc2Nyb2xsYmFyOmhvcml6b250YWx7CiAgICAgICAgaGVpZ2h0OiA4cHg7CiAgICB9CgogICAgOjotd2Via2l0LXNjcm9sbGJhci1idXR0b257CiAgICAgICAgaGVpZ2h0OiAwOwogICAgfQoKICAgIDo6LXdlYmtpdC1zY3JvbGxiYXItdHJhY2sgewogICAgICAgIGJvcmRlci1yYWRpdXM6IDRweDsKICAgIH0KICAgIDo6LXdlYmtpdC1zY3JvbGxiYXItdHJhY2stcGllY2UgewogICAgICAgIGJhY2tncm91bmQtY29sb3I6ICNmZGZkZmQ7CiAgICAgICAgYm9yZGVyLXJhZGl1czogNHB4OwogICAgfQogICAgOjotd2Via2l0LXNjcm9sbGJhci10aHVtYiB7CiAgICAgICAgd2lkdGg6OHB4OwogICAgICAgIG1hcmdpbjogMCAxcHg7CiAgICAgICAgYm9yZGVyLXJhZGl1czogNHB4OwogICAgICAgIGJhY2tncm91bmQ6ICNjNGM0YzQ7CiAgICB9CiAgICA6Oi13ZWJraXQtc2Nyb2xsYmFyLXRodW1iOmhvdmVyIHsKICAgICAgICBiYWNrZ3JvdW5kOiAjOTA5MDkwOwogICAgfQoKCgoKICAgIGJvZHkgewogICAgICAgIGJhY2tncm91bmQ6ICNmZmZmZmY7CiAgICAgICAgZm9udC1zaXplOiAxNHB4OwogICAgICAgIGxpbmUtaGVpZ2h0OjIuMTAyNTsKICAgICAgICBmb250LWZhbWlseTogIk1lbmxvIiwgIkFuZGFsZSBNb25vIiwgbW9ub3NwYWNlLCAiTWljcm9zb2Z0IFlhaGVpIiwgc2Fucy1zZXJpZjs7CiAgICAgICAgZm9udC13ZWlnaHQ6IG5vcm1hbDsKICAgICAgICBjb2xvcjogIzNjM2MzYzsKICAgICAgICBwYWRkaW5nOiAwIDM4cHg7CiAgICAgICAgbWF4LXdpZHRoOiA4MjBweDsKICAgICAgICBtYXJnaW46IDAgYXV0bzsKICAgICAgICAtd2Via2l0LXRleHQtc2l6ZS1hZGp1c3Q6IG5vbmU7CiAgICAgICAgd29yZC13cmFwOmJyZWFrLXdvcmQ7CgogICAgICAgIG92ZXJmbG93LXg6IGhpZGRlbjsKICAgICAgICB0ZXh0LXJlbmRlcmluZzogb3B0aW1pemVMZWdpYmlsaXR5OwogICAgfQoKICAgIGJyewogICAgICAgIGxpbmUtaGVpZ2h0OiAyLjEwMjU7CiAgICB9CgoKCiAgICBAbWVkaWEgKG1heC13aWR0aDogNjAwcHgpIHsKICAgICAgICBib2R5ewogICAgICAgICAgICBwYWRkaW5nOiAwIDMwcHg7CiAgICAgICAgfQogICAgfQoKICAgIEBtZWRpYSAobWF4LXdpZHRoOiA0ODBweCkgewogICAgICAgIGJvZHl7CiAgICAgICAgICAgIHBhZGRpbmc6IDAgMjBweDsKICAgICAgICB9CiAgICB9CgogICAgLmdpc3R7CiAgICAgICAgd29yZC1icmVhazogbm9ybWFsOwogICAgfQoKICAgIC5wb3N0ewogICAgICAgIG1hcmdpbi10b3A6IDEwcHg7CiAgICAgICAgbWFyZ2luLWJvdHRvbTogNTBweDsKICAgICAgICBwb3NpdGlvbjogcmVsYXRpdmU7CiAgICB9CgoKCiAgICBpbWd7CiAgICAgICAgbWF4LXdpZHRoOiA5OCU7CiAgICAgICAgbWFyZ2luOiAwLjhlbSBhdXRvIDAuOGVtIGF1dG87CiAgICAgICAgYm9yZGVyLXJhZGl1czogNXB4OwogICAgfQoKICAgIGgxIGltZywgaDIgaW1nLCBoMyBpbWcsIGg0IGltZywgaDUgaW1nLCBoNiBpbWd7CiAgICAgICAgbWFyZ2luOiBhdXRvOwogICAgfQoKICAgIC54Ml9pbWFnZXsKICAgICAgICB6b29tOiA1MCU7CiAgICB9CgogICAgLngzX2ltYWdlewogICAgICAgIHpvb206IDMzLjMzJTsKICAgIH0KCiAgICAueDRfaW1hZ2V7CiAgICAgICAgem9vbTogMjUlOwogICAgfQoKCiAgICBwIGltZ3sKICAgICAgICBtYXJnaW46IDAgYXV0bzsKICAgIH0KCiAgICBwewogICAgICAgIHdvcmQtd3JhcDpicmVhay13b3JkOwogICAgICAgIG92ZXJmbG93OmhpZGRlbjsKICAgICAgICBtYXJnaW46IDEuNWVtIDA7CiAgICB9CgogICAgbGkgcHsKICAgICAgICBsaW5lLWhlaWdodDogMS44ODU7CiAgICAgICAgbWFyZ2luOiAwOwogICAgfQoKICAgIC5wX3BhcnQgewogICAgICAgIG1hcmdpbjogMTBweCAwOwogICAgfQoKICAgIC5wX3BhcnQgcHsKICAgICAgICBtYXJnaW46IDAgMCAwLjZlbSAwOwogICAgfQoKICAgIC8qIHRleHQgaW5kZW50IGZvciBjaGluZXNlIHN0YXJ0cyovCiAgICAvKmgyLCBoMywgaDQsIGg1LCBoNiwgLnBfcGFydCBwLCAudG9kb19pdGVtLCBwewogICAgICAgIHRleHQtaW5kZW50OiAwcHg7CiAgICB9Ki8KICAgIHRhYmxlLCBwcmUsIHN2ZywgLmNvZGVoaWxpdGV0YWJsZXsKICAgICAgICBtYXJnaW4tbGVmdDogMHB4OwogICAgICAgIG1hcmdpbi1yaWdodDogMHB4OwogICAgfQoKICAgIC5jb2RlaGlsaXRldGFibGUgcHJlewogICAgICAgIG1hcmdpbi1sZWZ0OiAwOwogICAgICAgIG1hcmdpbi1yaWdodDogMDsKCiAgICB9CgogICAgLmNvZGVoaWxpdGV0YWJsZSAuY29kZWhpbGl0ZSBwcmV7CiAgICAgICAgYm9yZGVyLWxlZnQ6IG5vbmU7CiAgICB9CgogICAgLyogdGV4dCBpbmRlbnQgZm9yIGNoaW5lc2UgZW5kcyovCgoKICAgIGJsb2NrcXVvdGUgLnBfcGFydCBwLCBsaSAucF9wYXJ0IHB7CiAgICAgICAgdGV4dC1pbmRlbnQ6IDAgIWltcG9ydGFudDsKICAgIH0KCgogICAgaHJ7CiAgICAgICAgbWFyZ2luOiAzOHB4IDA7CiAgICAgICAgYm9yZGVyOiBub25lOwogICAgICAgIGJvcmRlci1ib3R0b206IDFweCBkYXNoZWQgI2UzZTNlMzsKICAgICAgICBjb2xvcjogI2UzZTNlMzsKICAgICAgICBoZWlnaHQ6IDFweDsKICAgICAgICBsaW5lLWhlaWdodDoxcHg7CiAgICAgICAgZm9udC1zaXplOjFweDsKICAgICAgICBvdmVyZmxvdzogaGlkZGVuOwogICAgfQoKCiAgICBoMXsKICAgICAgICBjb2xvcjogIzMzMzMzMzsKICAgICAgICBmb250LXNpemU6IDJlbTsKICAgICAgICB0ZXh0LWFsaWduOiBsZWZ0OwogICAgICAgIG1hcmdpbjogMDsKICAgICAgICBwYWRkaW5nOiAwOwogICAgICAgIGxpbmUtaGVpZ2h0OiAxLjZlbTsKICAgICAgICBtYXJnaW4tdG9wOiAwLjhlbTsKICAgICAgICBtYXJnaW4tYm90dG9tOiAwLjZlbTsKICAgIH0KCiAgICBoMSwgaDIsIGgzewogICAgICAgIGNvbG9yOiAjMzMzMzMzOwogICAgfQoKICAgIGg0ewogICAgICAgIGNvbG9yOiAjMzMzMzMzOwogICAgfQoKCiAgICBoMiwgaDN7CiAgICAgICAgbGluZS1oZWlnaHQ6IDEuNWVtOwogICAgICAgIG1hcmdpbi10b3A6IDEuNWVtOwogICAgICAgIG1hcmdpbi1ib3R0b206IDAuOGVtOwogICAgfQoKICAgIGgyIHsKICAgICAgICBmb250LXNpemU6IDEuNjVlbTsKICAgIH0KCiAgICBoMyB7CiAgICAgICAgZm9udC1zaXplOiAxLjM1ZW0KICAgIH0KCgoKICAgIG9sIHsKICAgICAgICBtYXJnaW46IDA7CiAgICB9CgogICAgdWx7CiAgICAgICAgcGFkZGluZzogNXB4IDM4cHg7CiAgICAgICAgbWFyZ2luOiAwOwogICAgfQoKICAgIHVsIGxpLCBsaXsKICAgICAgICBwYWRkaW5nOiAwOwogICAgICAgIG1hcmdpbjogMDsKICAgIH0KCiAgICB1bCBwLCBvbCBwewogICAgICAgIG92ZXJmbG93OiB2aXNpYmxlOwogICAgfQoKCiAgICBibG9ja3F1b3RlIHsKICAgICAgICAtbW96LWJveC1zaXppbmc6IGJvcmRlci1ib3g7CiAgICAgICAgYm94LXNpemluZzogYm9yZGVyLWJveDsKICAgICAgICBtYXJnaW46IDEuNmVtIDA7CiAgICAgICAgcGFkZGluZzogMCAwIDAgMS4yZW07CiAgICAgICAgYm9yZGVyLWxlZnQ6IDAuNGVtIHNvbGlkICNkZGRkZGQ7CiAgICAgICAgY29sb3I6ICM4ODg4ODg7CiAgICAgICAgbWluLWhlaWdodDoyMHB4OwogICAgfQoKCiAgICBibG9ja3F1b3RlIHAgewogICAgICAgIG1hcmdpbjogMC44ZW0gMDsKICAgIH0KCiAgICBibG9ja3F1b3RlIHNwYW4ubWRfbGluZSB7CiAgICAgICAgbWFyZ2luLWJvdHRvbTogMC4yNWVtOwogICAgICAgIG1hcmdpbi10b3A6IDAuMjVlbTsKICAgIH0KCiAgICBibG9ja3F1b3RlIHVsewogICAgICAgIHBhZGRpbmc6IDAgMTVweDsKICAgIH0KCiAgICBibG9ja3F1b3RlIHNtYWxsIHsKICAgICAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7CiAgICAgICAgbWFyZ2luOiAwLjhlbSAwIDAuOGVtIDEuNWVtOwogICAgICAgIGZvbnQtc2l6ZTogMC45ZW07CiAgICAgICAgY29sb3I6ICNjY2M7CiAgICB9CgoKCiAgICB0YWJsZSB7CiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7CiAgICAgICAgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsKICAgICAgICBib3JkZXItc3BhY2luZzogMDsKICAgICAgICBib3JkZXI6IDFweCBzb2xpZCAjZDlkOWQ5OwogICAgICAgIGJvcmRlci1sZWZ0OiAwOwogICAgICAgIG1hcmdpbi10b3A6IDIwcHg7CiAgICAgICAgbWFyZ2luLWJvdHRvbTogMjBweDsKICAgIH0KCgogICAgdGgsIHRkIHsKICAgICAgICBib3JkZXItbGVmdDogMXB4IHNvbGlkICNkOWQ5ZDk7CiAgICAgICAgcGFkZGluZzogOHB4OwogICAgICAgIGxpbmUtaGVpZ2h0OiAyMHB4OwogICAgICAgIHRleHQtYWxpZ246IGxlZnQ7CiAgICAgICAgdmVydGljYWwtYWxpZ246IHRvcDsKICAgICAgICBib3JkZXItdG9wOiAxcHggc29saWQgI2Q5ZDlkOTsKICAgIH0KCgoKCiAgICBjb2RlewogICAgICAgIGJhY2tncm91bmQ6ICNmNWY1ZjU7CiAgICAgICAgcGFkZGluZzogMCA1cHg7CiAgICAgICAgbWFyZ2luOiAwIDJweDsKICAgIH0KCiAgICBwcmV7CiAgICAgICAgYm9yZGVyOiAxcHggc29saWQgI2U2ZTZlNjsKICAgICAgICBtYXJnaW4tdG9wOiAxLjJlbTsKICAgICAgICBtYXJnaW4tYm90dG9tOiAxLjJlbTsKICAgICAgICBwYWRkaW5nOiAxNXB4IDEwcHg7CiAgICAgICAgZGlzcGxheTogYmxvY2s7CiAgICAgICAgb3ZlcmZsb3c6IGF1dG87CiAgICAgICAgYmFja2dyb3VuZDogI2Y3ZjdmNzsKICAgICAgICBmb250LXNpemU6IDkwJTsKICAgIH0KCiAgICAud2l0aF9saW5lcyBwcmV7CiAgICAgICAgYm9yZGVyOm5vbmU7CiAgICAgICAgbWFyZ2luLXRvcDogMC4yZW07CiAgICAgICAgbWFyZ2luLWJvdHRvbTogMC4yZW07CiAgICAgICAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7CiAgICB9CgogICAgLmlzX2NvZGVfZmlsZSBwcmV7CiAgICAgICAgYm9yZGVyOiBub25lOwogICAgICAgIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50OwogICAgfQoKICAgIC5jb2RlaGlsaXRlIHByZXsKICAgICAgICB3b3JkLXdyYXA6IG5vcm1hbDsKICAgIH0KCiAgICBwcmUgY29kZXsKICAgICAgICBib3JkZXI6bm9uZTsKICAgICAgICBiYWNrZ3JvdW5kOiBub25lOwogICAgICAgIHBhZGRpbmc6IDA7CiAgICAgICAgbWFyZ2luOiAwOwogICAgfQoKICAgIHByZSBwewogICAgICAgIG1hcmdpbjogMDsKICAgICAgICBwYWRkaW5nOiAwOwogICAgfQoKICAgIC5jb2RlaGlsaXRlIHRoLCAuY29kZWhpbGl0ZSB0ZHsKICAgICAgICBsaW5lLWhlaWdodDogMS44ZW07CiAgICB9CgoKICAgIGF7CiAgICAgICAgY29sb3I6ICM0MDgzYzQ7CiAgICAgICAgdGV4dC1kZWNvcmF0aW9uOiBub25lOwogICAgICAgIC8vYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkIHRyYW5zcGFyZW50OwogICAgfQoKICAgIGE6aG92ZXJ7CiAgICAgICAgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7CiAgICAgICAgLy9ib3JkZXItYm90dG9tOiAxcHggc29saWQgIzQwODNjNDsKICAgIH0KCiAgICBzdHJvbmcgewogICAgICAgIGNvbG9yOiAjMDAwMDAwOwogICAgICAgIGZvbnQtd2VpZ2h0OiBib2xkOwogICAgfQoKCiAgICAvKiBmb3IgbWFya2Rvd24gKi8KCiAgICAubGluZW5vcyBwcmV7CgkJYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7CgkJYm9yZGVyOiBub25lOwoJfQoJLmxpbmVub3N7CgkgICAgcGFkZGluZzogMCAwIDAgMTBweDsKCX0KCiAgICAudG9jewogICAgICAgIGJhY2tncm91bmQ6ICNmZGZkZmQ7CiAgICAgICAgYm9yZGVyLXJhZGl1czogNXB4OwogICAgICAgIGJvcmRlcjogMXB4IHNvbGlkICNlNmU2ZTY7CiAgICAgICAgbWFyZ2luOiAyN3B4IDAgNDdweCAwOwogICAgICAgIHBhZGRpbmc6IDEwcHggMDsKICAgIH0KCiAgICAudG9jIHVsewogICAgICAgIC8vcGFkZGluZzogNXB4IDQycHg7CiAgICB9CgogICAgLnRvYyB1bCBsaXsKICAgICAgICBwYWRkaW5nOiAwOwogICAgICAgIG1hcmdpbjogMDsKICAgIH0KICAgIC50b2MgYXsKICAgICAgICBjb2xvcjogIzNjM2MzYzsKICAgIH0KCgoKICAgIC50b2RvX2l0ZW17CiAgICAgICAgbGlzdC1zdHlsZTogbm9uZTsKICAgICAgICBtYXJnaW4tbGVmdDogLTEuNWVtCiAgICB9CiAgICAudG9kb19pdGVtIC50b2RvX2l0ZW0gewogICAgICAgIG1hcmdpbi1sZWZ0OiBhdXRvOwogICAgfQoKICAgIC50b2RvX2RvbmVfaXRlbXsKICAgICAgICBjb2xvcjogIzk5OTk5OTsKICAgIH0KCiAgICAudG9kb191bmRvbmVfaXRlbXsKICAgICAgICBjb2xvcjogI2M4NWE1NzsKICAgIH0KCgogICAgdWwgbGkudG9kb19pdGVtewoJbGlzdC1zdHlsZS10eXBlOiBub25lOwogICAgfQoKICAgIHVsIGxpLnRvZG9faXRlbTpiZWZvcmV7CiAgICAgICAgY29udGVudDogJ1wyNzE1JzsKICAgICAgICBwYWRkaW5nLXJpZ2h0OiAwLjdlbTsKICAgICAgICBmb250LWZhbWlseTogYXJpYWw7CiAgICB9CgogICAgdWwgbGkudG9kb19kb25lX2l0ZW06YmVmb3JlewogICAgICAgIGNvbnRlbnQ6ICdcMjcxMyc7CiAgICAgICAgcGFkZGluZy1yaWdodDogMC43ZW07CiAgICAgICAgZm9udC1mYW1pbHk6IGFyaWFsOwogICAgfQoKICAgIHVsIGxpLnRvZG9faXRlbSBpbnB1dHsKICAgICAgICBkaXNwbGF5Om5vbmUKICAgIH0KCgogICAgLypweWdtZW50cyovCgogICAgLmNvZGVoaWxpdGV7CiAgICAgICAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQgIWltcG9ydGFudDsKICAgIH0KCiAgICB0YWJsZS5jb2RlaGlsaXRldGFibGV7IGJvcmRlcjpub25lOyB9CgoKICAgIC5jb2RlaGlsaXRldGFibGUgdGR7IGJvcmRlcjogbm9uZTsgcGFkZGluZzogMDt9CgogICAgLmZsb3ctZ3JhcGhpY3t0ZXh0LWFsaWduOiBjZW50ZXJ9CgoKICAgIHRhYmxlLCB0ciwgdGQsIHRoLCB0Ym9keSwgdGhlYWQsIHRmb290LCAubWRfZWNoYXJ0cywgYmxvY2txdW90ZSAubWRfbGluZXsKICAgICAgICBwYWdlLWJyZWFrLWluc2lkZTogYXZvaWQgIWltcG9ydGFudDsKICAgIH0KCiAgICAuZm9vdG5vdGVzIC5tZF9saW5lewogICAgICAgIGRpc3BsYXk6IGlubGluZSAhaW1wb3J0YW50OwogICAgfQoKCiAgICAuaW1nX3J0XzkwewogICAgICAgIHRyYW5zZm9ybTpyb3RhdGUoOTBkZWcpOwogICAgICAgIC1tcy10cmFuc2Zvcm06cm90YXRlKDkwZGVnKTsKICAgICAgICAtbW96LXRyYW5zZm9ybTpyb3RhdGUoOTBkZWcpOwogICAgICAgIC13ZWJraXQtdHJhbnNmb3JtOnJvdGF0ZSg5MGRlZyk7CiAgICAgICAgLW8tdHJhbnNmb3JtOnJvdGF0ZSg5MGRlZyk7CiAgICB9CiAgICAuaW1nX3J0XzE4MHsKICAgICAgICB0cmFuc2Zvcm06cm90YXRlKDE4MGRlZyk7CiAgICAgICAgLW1zLXRyYW5zZm9ybTpyb3RhdGUoMTgwZGVnKTsKICAgICAgICAtbW96LXRyYW5zZm9ybTpyb3RhdGUoMTgwZGVnKTsKICAgICAgICAtd2Via2l0LXRyYW5zZm9ybTpyb3RhdGUoMTgwZGVnKTsKICAgICAgICAtby10cmFuc2Zvcm06cm90YXRlKDE4MGRlZyk7CiAgICB9CiAgICAuaW1nX3J0XzI3MHsKICAgICAgICB0cmFuc2Zvcm06cm90YXRlKDI3MGRlZyk7CiAgICAgICAgLW1zLXRyYW5zZm9ybTpyb3RhdGUoMjcwZGVnKTsKICAgICAgICAtbW96LXRyYW5zZm9ybTpyb3RhdGUoMjcwZGVnKTsKICAgICAgICAtd2Via2l0LXRyYW5zZm9ybTpyb3RhdGUoMjcwZGVnKTsKICAgICAgICAtby10cmFuc2Zvcm06cm90YXRlKDI3MGRlZyk7CiAgICB9CgogICAgLm1kX2hhc19ibG9ja19iZWxvd3sKICAgICAgICBtYXJnaW4tYm90dG9tOiAwLjFlbSAhaW1wb3J0YW50OwogICAgfQogICAgLm1kX2hhc19ibG9ja19iZWxvd19pbWd7CiAgICAgICAgbWFyZ2luLWJvdHRvbTogLTAuNmVtICFpbXBvcnRhbnQ7CiAgICB9CgoKCiAgICAgICAgc3Bhbi5tZF9saW5le21hcmdpbi1ib3R0b206MC41ZW07IGRpc3BsYXk6YmxvY2s7IGxpbmUtaGVpZ2h0OjEuODE4NjYyNX0KICAgICAgICAubWRfbGluZSBicnsgZGlzcGxheTogbm9uZTt9CiAgICAgICAgLmNvZGVoaWxpdGUgLmhsbCB7IGJhY2tncm91bmQtY29sb3I6ICNmZmZmY2MgfQouY29kZWhpbGl0ZSAgeyBiYWNrZ3JvdW5kOiAjZWVlZWRkOyB9Ci5jb2RlaGlsaXRlIC5jIHsgY29sb3I6ICM5OTk5OTkgfSAvKiBDb21tZW50ICovCi5jb2RlaGlsaXRlIC5lcnIgeyBjb2xvcjogI2E2MTcxNzsgYmFja2dyb3VuZC1jb2xvcjogI2UzZDJkMiB9IC8qIEVycm9yICovCi5jb2RlaGlsaXRlIC5rIHsgY29sb3I6ICM4QjAwOEI7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogS2V5d29yZCAqLwouY29kZWhpbGl0ZSAubiB7IGNvbG9yOiAjNTU1NTU1IH0gLyogTmFtZSAqLwouY29kZWhpbGl0ZSAubyB7IGNvbG9yOiAjNTU1NTU1IH0gLyogT3BlcmF0b3IgKi8KLmNvZGVoaWxpdGUgLnAgeyBjb2xvcjogIzU1NTU1NSB9IC8qIFB1bmN0dWF0aW9uICovCi5jb2RlaGlsaXRlIC5jbSB7IGNvbG9yOiAjOTk5OTk5IH0gLyogQ29tbWVudC5NdWx0aWxpbmUgKi8KLmNvZGVoaWxpdGUgLmNwIHsgY29sb3I6ICMxZTg4OWIgfSAvKiBDb21tZW50LlByZXByb2MgKi8KLmNvZGVoaWxpdGUgLmMxIHsgY29sb3I6ICM5OTk5OTkgfSAvKiBDb21tZW50LlNpbmdsZSAqLwouY29kZWhpbGl0ZSAuY3MgeyBjb2xvcjogIzhCMDA4QjsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBDb21tZW50LlNwZWNpYWwgKi8KLmNvZGVoaWxpdGUgLmdkIHsgY29sb3I6ICNhYTAwMDAgfSAvKiBHZW5lcmljLkRlbGV0ZWQgKi8KLmNvZGVoaWxpdGUgLmdlIHsgZm9udC1zdHlsZTogaXRhbGljIH0gLyogR2VuZXJpYy5FbXBoICovCi5jb2RlaGlsaXRlIC5nciB7IGNvbG9yOiAjYWEwMDAwIH0gLyogR2VuZXJpYy5FcnJvciAqLwouY29kZWhpbGl0ZSAuZ2ggeyBjb2xvcjogIzAwMDA4MDsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBHZW5lcmljLkhlYWRpbmcgKi8KLmNvZGVoaWxpdGUgLmdpIHsgY29sb3I6ICMwMGFhMDAgfSAvKiBHZW5lcmljLkluc2VydGVkICovCi5jb2RlaGlsaXRlIC5nbyB7IGNvbG9yOiAjODg4ODg4IH0gLyogR2VuZXJpYy5PdXRwdXQgKi8KLmNvZGVoaWxpdGUgLmdwIHsgY29sb3I6ICM1NTU1NTUgfSAvKiBHZW5lcmljLlByb21wdCAqLwouY29kZWhpbGl0ZSAuZ3MgeyBmb250LXdlaWdodDogYm9sZCB9IC8qIEdlbmVyaWMuU3Ryb25nICovCi5jb2RlaGlsaXRlIC5ndSB7IGNvbG9yOiAjODAwMDgwOyBmb250LXdlaWdodDogYm9sZCB9IC8qIEdlbmVyaWMuU3ViaGVhZGluZyAqLwouY29kZWhpbGl0ZSAuZ3QgeyBjb2xvcjogI2FhMDAwMCB9IC8qIEdlbmVyaWMuVHJhY2ViYWNrICovCi5jb2RlaGlsaXRlIC5rYyB7IGNvbG9yOiAjOEIwMDhCOyBmb250LXdlaWdodDogYm9sZCB9IC8qIEtleXdvcmQuQ29uc3RhbnQgKi8KLmNvZGVoaWxpdGUgLmtkIHsgY29sb3I6ICM4QjAwOEI7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogS2V5d29yZC5EZWNsYXJhdGlvbiAqLwouY29kZWhpbGl0ZSAua24geyBjb2xvcjogIzhCMDA4QjsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBLZXl3b3JkLk5hbWVzcGFjZSAqLwouY29kZWhpbGl0ZSAua3AgeyBjb2xvcjogIzhCMDA4QjsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBLZXl3b3JkLlBzZXVkbyAqLwouY29kZWhpbGl0ZSAua3IgeyBjb2xvcjogIzhCMDA4QjsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBLZXl3b3JkLlJlc2VydmVkICovCi5jb2RlaGlsaXRlIC5rdCB7IGNvbG9yOiAjYTdhN2E3OyBmb250LXdlaWdodDogYm9sZCB9IC8qIEtleXdvcmQuVHlwZSAqLwouY29kZWhpbGl0ZSAubSB7IGNvbG9yOiAjQjQ1MkNEIH0gLyogTGl0ZXJhbC5OdW1iZXIgKi8KLmNvZGVoaWxpdGUgLnMgeyBjb2xvcjogI0NENTU1NSB9IC8qIExpdGVyYWwuU3RyaW5nICovCi5jb2RlaGlsaXRlIC5uYSB7IGNvbG9yOiAjNjU4YjAwIH0gLyogTmFtZS5BdHRyaWJ1dGUgKi8KLmNvZGVoaWxpdGUgLm5iIHsgY29sb3I6ICM2NThiMDAgfSAvKiBOYW1lLkJ1aWx0aW4gKi8KLmNvZGVoaWxpdGUgLm5jIHsgY29sb3I6ICMwMDhiNDU7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogTmFtZS5DbGFzcyAqLwouY29kZWhpbGl0ZSAubm8geyBjb2xvcjogIzAwNjg4QiB9IC8qIE5hbWUuQ29uc3RhbnQgKi8KLmNvZGVoaWxpdGUgLm5kIHsgY29sb3I6ICM3MDdhN2MgfSAvKiBOYW1lLkRlY29yYXRvciAqLwouY29kZWhpbGl0ZSAubmkgeyBjb2xvcjogIzU1NTU1NSB9IC8qIE5hbWUuRW50aXR5ICovCi5jb2RlaGlsaXRlIC5uZSB7IGNvbG9yOiAjMDA4YjQ1OyBmb250LXdlaWdodDogYm9sZCB9IC8qIE5hbWUuRXhjZXB0aW9uICovCi5jb2RlaGlsaXRlIC5uZiB7IGNvbG9yOiAjMDA4YjQ1IH0gLyogTmFtZS5GdW5jdGlvbiAqLwouY29kZWhpbGl0ZSAubmwgeyBjb2xvcjogIzU1NTU1NSB9IC8qIE5hbWUuTGFiZWwgKi8KLmNvZGVoaWxpdGUgLm5uIHsgY29sb3I6ICMwMDhiNDU7IHRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lIH0gLyogTmFtZS5OYW1lc3BhY2UgKi8KLmNvZGVoaWxpdGUgLm54IHsgY29sb3I6ICM1NTU1NTUgfSAvKiBOYW1lLk90aGVyICovCi5jb2RlaGlsaXRlIC5weSB7IGNvbG9yOiAjNTU1NTU1IH0gLyogTmFtZS5Qcm9wZXJ0eSAqLwouY29kZWhpbGl0ZSAubnQgeyBjb2xvcjogIzhCMDA4QjsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBOYW1lLlRhZyAqLwouY29kZWhpbGl0ZSAubnYgeyBjb2xvcjogIzAwNjg4QiB9IC8qIE5hbWUuVmFyaWFibGUgKi8KLmNvZGVoaWxpdGUgLm93IHsgY29sb3I6ICM4QjAwOEIgfSAvKiBPcGVyYXRvci5Xb3JkICovCi5jb2RlaGlsaXRlIC53IHsgY29sb3I6ICNiYmJiYmIgfSAvKiBUZXh0LldoaXRlc3BhY2UgKi8KLmNvZGVoaWxpdGUgLm1iIHsgY29sb3I6ICNCNDUyQ0QgfSAvKiBMaXRlcmFsLk51bWJlci5CaW4gKi8KLmNvZGVoaWxpdGUgLm1mIHsgY29sb3I6ICNCNDUyQ0QgfSAvKiBMaXRlcmFsLk51bWJlci5GbG9hdCAqLwouY29kZWhpbGl0ZSAubWggeyBjb2xvcjogI0I0NTJDRCB9IC8qIExpdGVyYWwuTnVtYmVyLkhleCAqLwouY29kZWhpbGl0ZSAubWkgeyBjb2xvcjogI0I0NTJDRCB9IC8qIExpdGVyYWwuTnVtYmVyLkludGVnZXIgKi8KLmNvZGVoaWxpdGUgLm1vIHsgY29sb3I6ICNCNDUyQ0QgfSAvKiBMaXRlcmFsLk51bWJlci5PY3QgKi8KLmNvZGVoaWxpdGUgLnNiIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5CYWNrdGljayAqLwouY29kZWhpbGl0ZSAuc2MgeyBjb2xvcjogI0NENTU1NSB9IC8qIExpdGVyYWwuU3RyaW5nLkNoYXIgKi8KLmNvZGVoaWxpdGUgLnNkIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5Eb2MgKi8KLmNvZGVoaWxpdGUgLnMyIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5Eb3VibGUgKi8KLmNvZGVoaWxpdGUgLnNlIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5Fc2NhcGUgKi8KLmNvZGVoaWxpdGUgLnNoIHsgY29sb3I6ICMxYzdlNzE7IGZvbnQtc3R5bGU6IGl0YWxpYyB9IC8qIExpdGVyYWwuU3RyaW5nLkhlcmVkb2MgKi8KLmNvZGVoaWxpdGUgLnNpIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5JbnRlcnBvbCAqLwouY29kZWhpbGl0ZSAuc3ggeyBjb2xvcjogI2NiNmMyMCB9IC8qIExpdGVyYWwuU3RyaW5nLk90aGVyICovCi5jb2RlaGlsaXRlIC5zciB7IGNvbG9yOiAjMWM3ZTcxIH0gLyogTGl0ZXJhbC5TdHJpbmcuUmVnZXggKi8KLmNvZGVoaWxpdGUgLnMxIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5TaW5nbGUgKi8KLmNvZGVoaWxpdGUgLnNzIHsgY29sb3I6ICNDRDU1NTUgfSAvKiBMaXRlcmFsLlN0cmluZy5TeW1ib2wgKi8KLmNvZGVoaWxpdGUgLmJwIHsgY29sb3I6ICM2NThiMDAgfSAvKiBOYW1lLkJ1aWx0aW4uUHNldWRvICovCi5jb2RlaGlsaXRlIC52YyB7IGNvbG9yOiAjMDA2ODhCIH0gLyogTmFtZS5WYXJpYWJsZS5DbGFzcyAqLwouY29kZWhpbGl0ZSAudmcgeyBjb2xvcjogIzAwNjg4QiB9IC8qIE5hbWUuVmFyaWFibGUuR2xvYmFsICovCi5jb2RlaGlsaXRlIC52aSB7IGNvbG9yOiAjMDA2ODhCIH0gLyogTmFtZS5WYXJpYWJsZS5JbnN0YW5jZSAqLwouY29kZWhpbGl0ZSAuaWwgeyBjb2xvcjogI0I0NTJDRCB9IC8qIExpdGVyYWwuTnVtYmVyLkludGVnZXIuTG9uZyAqLw==">
+    <!--header_scripts-->
+</head>
+<body>
+
+
+<div class="post">
+    
+    <div class="post_body">
+        <p class="md_block">
+
+<div class="toc"><ul>
+<li>
+<a href="#toc_0">注释</a>
+<ul>
+<li>
+<a href="#toc_1">文档注释</a>
+</li>
+<li>
+<a href="#toc_2">方法注释</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_3">命名</a>
+<ul>
+<li>
+<a href="#toc_4">Protocols 协议命名</a>
+</li>
+<li>
+<a href="#toc_5">Emumerations 枚举命名规范</a>
+</li>
+<li>
+<a href="#toc_6">Class Prefixes类型前缀</a>
+</li>
+<li>
+<a href="#toc_7">Selector选择器</a>
+</li>
+<li>
+<a href="#toc_8">Generics泛型</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_9">Code Formatting 代码格式</a>
+<ul>
+<li>
+<a href="#toc_10">留空白</a>
+</li>
+<li>
+<a href="#toc_11">声明类型时，将冒号与标识符连在一起</a>
+</li>
+<li>
+<a href="#toc_12">Control Flow 控制流</a>
+</li>
+<li>
+<a href="#toc_13">代码块缩进</a>
+</li>
+<li>
+<a href="#toc_14">Early Return</a>
+</li>
+<li>
+<a href="#toc_15">Semicolons 分号</a>
+</li>
+<li>
+<a href="#toc_16">自定义运算符的时候左右尽量各保留一个空格</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_17">代码分割</a>
+<ul>
+<li>
+<a href="#toc_18">ProtocolConformance 协议保持一致性</a>
+</li>
+<li>
+<a href="#toc_19">无用的代码要删除</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_20">类型定义</a>
+<ul>
+<li>
+<a href="#toc_21">更多的使用let，而不是var</a>
+</li>
+<li>
+<a href="#toc_22">常量</a>
+</li>
+<li>
+<a href="#toc_23">Optional可选类型</a>
+<ul>
+<li>
+<a href="#toc_24">尽量不要使用强制解包</a>
+</li>
+<li>
+<a href="#toc_25">避免使用隐式可选类型</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_26">Struct Initializers 结构体初始化</a>
+</li>
+<li>
+<a href="#toc_27">Lazy Initialization</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_28">Classes and Structures 结构体和类</a>
+<ul>
+<li>
+<a href="#toc_29">首选struct而非class</a>
+</li>
+<li>
+<a href="#toc_30">只有在必须时才使用self</a>
+</li>
+<li>
+<a href="#toc_31">对于只读的属性或者下标语法，使用隐式的getter方法</a>
+</li>
+<li>
+<a href="#toc_32">请把class默认标记为final</a>
+</li>
+<li>
+<a href="#toc_33">类型推断</a>
+</li>
+<li>
+<a href="#toc_34">函数声明</a>
+</li>
+<li>
+<a href="#toc_35">闭包表达式</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_36">Syntactic Sugar语法糖</a>
+</li>
+<li>
+<a href="#toc_37">内存管理</a>
+</li>
+<li>
+<a href="#toc_38">对于顶级类型，函数，变量定义，明确的列出权限控制</a>
+</li>
+</ul>
+</div>
+</p>
+
+
+<h1 id="toc_0">注释</h1>
+
+<blockquote>
+
+<!-- 单行注释 -->
+
+<p class="md_block">
+    <span class="md_line">/*  多行注释  */</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">/** 标记注释2 */</span>
+</p>
+
+</blockquote>
+
+<p class="md_block">
+    <span class="md_line">建议使用<a class="md_compiled" href="https://github.com/onevcat/VVDocumenter-Xcode">VVDocument-Xode插件</a></span>
+</p>
+
+
+<h2 id="toc_1">文档注释</h2>
+
+<p class="md_block">
+    <span class="md_line">以/**   ....*/ 标记，  不用再没一行开头都加*号<br /></span>
+    <span class="md_line">支持markdown书写<br /></span>
+    <span class="md_line">例如</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="cm">/**</span>
+<span class="cm"> ## Feature Support</span>
+
+<span class="cm"> This class does some awesome things. It supports:</span>
+
+<span class="cm"> - Feature 1</span>
+<span class="cm"> - Feature 2</span>
+<span class="cm"> - Feature 3</span>
+
+<span class="cm"> ## Examples</span>
+
+<span class="cm"> Here is an example use case indented by four spaces because that indicates a</span>
+<span class="cm"> code block:</span>
+
+<span class="cm">     let myAwesomeThing = MyAwesomeClass()</span>
+<span class="cm">     myAwesomeThing.makeMoney()</span>
+
+<span class="cm"> ## Warnings</span>
+
+<span class="cm"> There are some things you should be careful of:</span>
+
+<span class="cm"> 1. Thing one</span>
+<span class="cm"> 2. Thing two</span>
+<span class="cm"> 3. Thing three</span>
+<span class="cm"> */</span>
+<span class="k">class</span> <span class="n">MyAwesomeClass</span> <span class="p">{</span>
+    <span class="cm">/* ... */</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_2">方法注释</h2>
+
+<p class="md_block">
+    <span class="md_line">用 - parameter注释来标记参数等</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="cm">/**</span>
+<span class="cm"> This does something with a `UIViewController`, perchance.</span>
+<span class="cm"> - warning: Make sure that `someValue` is `true` before running this function.</span>
+<span class="cm"> */</span>
+<span class="k">func</span> <span class="nf">myFunction</span><span class="p">()</span> <span class="p">{</span>
+    <span class="cm">/* ... */</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h1 id="toc_3">命名</h1>
+
+<p class="md_block">
+    <span class="md_line">使用可读的驼峰命名法去给<code>类</code> <code>方法</code> <code>变量</code> 命名。 <code>class</code> <code>struct</code> <code>protocol</code> <code>enum</code> 应使用大写，变量名使用小写</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="n">private</span> <span class="k">let</span> <span class="n">maximumWidgetCount</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="k">class</span> <span class="n">WidgetContainer</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nl">widgetButton</span><span class="p">:</span> <span class="bp">UIButton</span>
+  <span class="k">let</span> <span class="n">widgetHeightPercentage</span> <span class="o">=</span> <span class="mf">0.85</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">对于全局函数，init方法 ，建议每个参数都使用外部变量，来保证可读性</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">func</span> <span class="n">dateFromString</span><span class="p">(</span><span class="nl">dateString</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">NSDate</span>
+<span class="k">func</span> <span class="n">convertPointAt</span><span class="p">(</span><span class="n">column</span> <span class="nl">column</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">row</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">CGPoint</span>
+<span class="k">func</span> <span class="n">timedAction</span><span class="p">(</span><span class="n">afterDelay</span> <span class="nl">delay</span><span class="p">:</span> <span class="n">NSTimeInterval</span><span class="p">,</span> <span class="n">perform</span> <span class="nl">action</span><span class="p">:</span> <span class="bp">SKAction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">SKAction</span><span class="o">!</span>
+
+<span class="c1">// would be called like this:</span>
+<span class="n">dateFromString</span><span class="p">(</span><span class="s">&quot;2014-03-14&quot;</span><span class="p">)</span>
+<span class="n">convertPointAt</span><span class="p">(</span><span class="nl">column</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="nl">row</span><span class="p">:</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">timedAction</span><span class="p">(</span><span class="nl">afterDelay</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">perform</span><span class="p">:</span> <span class="n">someOtherAction</span><span class="p">)</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_4">Protocols 协议命名</h2>
+
+<p class="md_block">
+    <span class="md_line">建议遵守<a class="md_compiled" href="https://swift.org/documentation/api-design-guidelines/#follow-case-conventions">Apple&#39;s API DesignGuidelines</a>使用名词来描述，如 <code>ing</code> <code>able</code> <code>ible</code><br /></span>
+    <span class="md_line">例如</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="n">Collection</span> 
+<span class="n">WidgerFactory</span>
+<span class="n">Equtable</span>
+<span class="n">Resizing</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_5">Emumerations 枚举命名规范</h2>
+
+<p class="md_block">
+    <span class="md_line">使用首字母小写的驼峰命名法给每个case命名</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">enum</span> <span class="n">Shape</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="n">rectangle</span>
+  <span class="k">case</span> <span class="n">square</span>
+  <span class="k">case</span> <span class="n">rightTriangle</span>
+  <span class="k">case</span> <span class="n">equilateralTriangle</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_6">Class Prefixes类型前缀</h2>
+
+<p class="md_block">
+    <span class="md_line md_line_dom_embed"><del>官方建议不使用前缀，因为swift有命名空间的概念</del><br /></span>
+    <span class="md_line">但是由于在项目开发中不可避免使用开源库，大部分使用pods管理，但是有时候需要针对需要定制功能，直接修改源码，这时候是直接将源码放在工程中，而且大部分的项目都是混编项目。可能导致命名冲突，此处还建议用LJ(Lianjia)当作命名前缀</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">class</span> <span class="nl">LJHomeViewController</span><span class="p">:</span> <span class="bp">UIViewController</span> <span class="p">{}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_7">Selector选择器</h2>
+
+<p class="md_block">
+    <span class="md_line">建议使用可推测的上下文环境，来创建选择器，而不是点击Xcode的Fix it  ，这样会产生一个全名称 选择器</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">let</span> <span class="n">sel</span> <span class="o">=</span> <span class="err">#</span><span class="n">selector</span><span class="p">(</span><span class="n">viewDidLoad</span><span class="p">)</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">不推荐</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">let</span> <span class="n">sel</span> <span class="o">=</span> <span class="err">#</span><span class="n">selector</span><span class="p">(</span><span class="n">ViewController</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">)</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_8">Generics泛型</h2>
+
+<p class="md_block">
+    <span class="md_line">泛型命名应该使用大写的驼峰命名法，，如果给一个泛型起名字其实没意义，可以使用常见的T，U，V来命名<br /></span>
+    <span class="md_line">推荐</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">struct</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="k">func</span> <span class="n">writeTo</span><span class="o">&lt;</span><span class="nl">Target</span><span class="p">:</span> <span class="n">OutputStream</span><span class="o">&gt;</span><span class="p">(</span><span class="k">inout</span> <span class="nl">target</span><span class="p">:</span> <span class="n">Target</span><span class="p">)</span>
+<span class="k">func</span> <span class="n">max</span><span class="o">&lt;</span><span class="nl">T</span><span class="p">:</span> <span class="n">Comparable</span><span class="o">&gt;</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">_</span> <span class="nl">y</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">不推荐</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">struct</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span><span class="c1">//命名无意义</span>
+<span class="k">func</span> <span class="n">writeTo</span><span class="o">&lt;</span><span class="nl">target</span><span class="p">:</span> <span class="n">OutputStream</span><span class="o">&gt;</span><span class="p">(</span><span class="k">inout</span> <span class="nl">t</span><span class="p">:</span> <span class="n">target</span><span class="p">)</span><span class="c1">// 首字母未大写</span>
+<span class="k">func</span> <span class="n">max</span><span class="o">&lt;</span><span class="nl">Thing</span><span class="p">:</span> <span class="n">Comparable</span><span class="o">&gt;</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">Thing</span><span class="p">,</span> <span class="n">_</span> <span class="nl">y</span><span class="p">:</span> <span class="n">Thing</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Thing</span><span class="c1">//简称即可</span>
+</pre></div>
+
+<!--block_code_end-->
+<h1 id="toc_9">Code Formatting 代码格式</h1>
+
+<h2 id="toc_10">留空白</h2>
+
+<ul>
+<li>建议使用tabs 而不是使用空格</li>
+<li>
+<p class="md_block">
+    <span class="md_line">文件结束时留一行空白</span>
+</p></li>
+<li>
+<p class="md_block">
+    <span class="md_line">用足够的空行把代码分割为合理的逻辑块，而不是非常紧凑</span>
+</p></li>
+<li>
+<p class="md_block md_has_block_below md_has_block_below_ul">
+    <span class="md_line">不要在一行代码结尾处留空格</span>
+</p>
+
+
+<ul>
+<li>更不要在空行（\n）中使用缩进（\t）</li>
+</ul></li>
+</ul>
+
+<h2 id="toc_11">声明类型时，将冒号与标识符连在一起</h2>
+
+<p class="md_block">
+    <span class="md_line">当声明一个变量时冒号紧跟变量，空一格再写类型</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">class</span> <span class="nl">SmallBatchSustainableFairtrade</span><span class="p">:</span> <span class="n">Coffee</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+
+<span class="k">let</span> <span class="nl">timeToCoffee</span><span class="p">:</span> <span class="n">NSTimeInterval</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="k">func</span> <span class="n">makeCoffee</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">CoffeeType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Coffee</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_12">Control Flow 控制流</h2>
+
+<p class="md_block">
+    <span class="md_line">建议使用Swift范的for in 循环而不是 while or  c 式for循环</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="mi">3</span> <span class="p">{</span>
+  <span class="n">print</span><span class="p">(</span><span class="s">&quot;Hello three times&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">person</span><span class="p">)</span> <span class="k">in</span> <span class="n">attendeeList</span><span class="p">.</span><span class="n">enumerate</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">print</span><span class="p">(</span><span class="s">&quot;\(person) is at position #\(index)&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="mf">0.</span><span class="n">stride</span><span class="p">(</span><span class="nl">to</span><span class="p">:</span> <span class="n">items</span><span class="p">.</span><span class="n">count</span><span class="p">,</span> <span class="nl">by</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="p">(</span><span class="mf">0.</span><span class="p">.</span><span class="mf">.3</span><span class="p">).</span><span class="n">reverse</span><span class="p">()</span> <span class="p">{</span>   <span class="c1">//3，2，1，0</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_13">代码块缩进</h2>
+
+<p class="md_block">
+    <span class="md_line"> (if/else/switch/while etc.)或者method function 的大括号留在当前行，并前保留一个空格 ，能省略的不要添加<br /></span>
+    <span class="md_line">如</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">if</span> <span class="n">user</span><span class="p">.</span><span class="n">isHappy</span> <span class="p">{</span>
+  <span class="c1">// Do something</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="c1">// Do something else</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">不推荐</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">isHappy</span> <span class="p">)</span>          <span class="err">多余空格</span>
+<span class="p">{</span>                  <span class="err">换行位置不对</span>
+  <span class="c1">// Do something</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="p">{</span>
+  <span class="c1">// Do something else</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_14">Early Return</h2>
+
+<p class="md_block">
+    <span class="md_line">当你遇到某些操作需要条件判断去执行，应该使用<code>防御式编程</code> 尽早返回<br /></span>
+    <span class="md_line">如</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="n">guard</span> <span class="n">n</span><span class="p">.</span><span class="n">isNumber</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+<span class="n">guard</span> <span class="k">let</span> <span class="n">number1</span> <span class="o">=</span> <span class="n">number1</span><span class="p">,</span> <span class="n">number2</span> <span class="o">=</span> <span class="n">number2</span><span class="p">,</span> <span class="n">number3</span> <span class="o">=</span> <span class="n">number3</span> <span class="k">else</span> <span class="p">{</span> <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;impossible&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="c1">// do something with numbers</span>
+<span class="c1">// Use n here</span>
+<span class="c1">//guard 理解为确保的意思，  如 确保n是一个数字</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">不推荐使用if判断</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">if</span> <span class="n">n</span><span class="p">.</span><span class="n">isNumber</span> <span class="p">{</span>
+    <span class="c1">// Use n here</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+
+
+<span class="k">if</span> <span class="k">let</span> <span class="n">number1</span> <span class="o">=</span> <span class="n">number1</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="k">let</span> <span class="n">number2</span> <span class="o">=</span> <span class="n">number2</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="n">number3</span> <span class="o">=</span> <span class="n">number3</span> <span class="p">{</span>
+      <span class="c1">// do something with numbers</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;impossible&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;impossible&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="p">{</span>
+  <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;impossible&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_15">Semicolons 分号</h2>
+
+<p class="md_block">
+    <span class="md_line">不要写分号，不要写分号，不要写分号 Swift不同于JavaScript ,详情参看<br /></span>
+    <span class="md_line md_line_dom_embed"><a class="md_compiled" href="http://stackoverflow.com/questions/444080/do-you-recommend-using-semicolons-after-every-statement-in-javascript">generally considered unsafe---Do you recommend using semicolons after every statement in JavaScript?</a></span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">更不建议把多句代码块放在一行中</span>
+</p>
+
+
+<h2 id="toc_16">自定义运算符的时候左右尽量各保留一个空格</h2>
+
+<p class="md_block">
+    <span class="md_line">如 </span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">func</span> <span class="o">&lt;|</span><span class="p">(</span><span class="nl">lhs</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">rhs</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span>
+<span class="k">func</span> <span class="o">&lt;|&lt;&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="p">(</span><span class="nl">lhs</span><span class="p">:</span> <span class="n">A</span><span class="p">,</span> <span class="nl">rhs</span><span class="p">:</span> <span class="n">A</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">A</span>
+<span class="c1">// 重构后</span>
+<span class="k">func</span> <span class="o">&lt;|</span> <span class="p">(</span><span class="nl">lhs</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">rhs</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span>
+<span class="k">func</span> <span class="o">&lt;|&lt;</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="p">(</span><span class="nl">lhs</span><span class="p">:</span> <span class="n">A</span><span class="p">,</span> <span class="nl">rhs</span><span class="p">:</span> <span class="n">A</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">A</span>
+</pre></div>
+
+<!--block_code_end-->
+<h1 id="toc_17">代码分割</h1>
+
+<p class="md_block">
+    <span class="md_line">使用良好的代码分割让你的代码块更具有逻辑性</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="c1">// MARK: -                   类似@parma mark - </span>
+<span class="c1">// MARK:                      类似@parma mark </span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_18">ProtocolConformance 协议保持一致性</h2>
+
+<p class="md_block">
+    <span class="md_line">一个类型实现一个协议时建议单独声明一个扩展，保证逻辑性分离<br /></span>
+    <span class="md_line">如</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">class</span> <span class="nl">MyViewcontroller</span><span class="p">:</span> <span class="bp">UIViewController</span> <span class="p">{</span>
+  <span class="c1">// class stuff here</span>
+<span class="p">}</span>
+
+<span class="c1">// MARK: - UITableViewDataSource</span>
+<span class="k">extension</span> <span class="nl">MyViewcontroller</span><span class="p">:</span> <span class="bp">UITableViewDataSource</span> <span class="p">{</span>
+  <span class="c1">// table view data source methods</span>
+<span class="p">}</span>
+
+<span class="c1">// MARK: - UIScrollViewDelegate</span>
+<span class="k">extension</span> <span class="nl">MyViewcontroller</span><span class="p">:</span> <span class="bp">UIScrollViewDelegate</span> <span class="p">{</span>
+  <span class="c1">// scroll view delegate methods</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">不推荐实现的所有协议写在一起</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">class</span> <span class="nl">MyViewcontroller</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="bp">UITableViewDataSource</span><span class="p">,</span> <span class="bp">UIScrollViewDelegate</span> <span class="p">{</span>
+  <span class="c1">// all methods</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_19">无用的代码要删除</h2>
+
+<p class="md_block">
+    <span class="md_line">无用的代码和注释要删除 ，避免给阅读代码的人造成困惑和疑问</span>
+</p>
+
+
+<h1 id="toc_20">类型定义</h1>
+
+<p class="md_block">
+    <span class="md_line">尽可能的使用swift自带类型，在必须的时候才做桥接 ，String-&gt; NSString , Set-&gt;NSSet</span>
+</p>
+
+
+<h2 id="toc_21">更多的使用let，而不是var</h2>
+
+<p class="md_block md_has_block_below md_has_block_below_blockquote">
+    <span class="md_line">尽量<code>let foo = something</code>  而非 <code>var  for = somthing</code> </span>
+</p>
+
+
+<blockquote>
+
+<p class="md_block">
+    <span class="md_line">let-有保障 并且它的值的永远不会改变，对同事也是个 清晰的标记，对于它的用法，之后的代码可以做个强而有力的推断。更容易明白代码的含义。否则的话一旦你用了 var，还要去考虑值会不会改变，这时候你就不得不人肉去检查。<br /></span>
+    <span class="md_line md_line_dom_embed"><code>这样，无论何时你看到 var，就假设它会变，并找到原因。</code></span>
+</p>
+
+</blockquote>
+
+<h2 id="toc_22">常量</h2>
+
+<p class="md_block">
+    <span class="md_line">不建议直接命名顶级变量，建议定义在结构体或者枚举内部，用static let 声明。  可以给这些变量一个合适的命名空间</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">enum</span> <span class="n">Math</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="k">let</span> <span class="n">e</span>  <span class="o">=</span> <span class="mf">2.718281828459045235360287</span>
+  <span class="k">static</span> <span class="k">let</span> <span class="n">pi</span> <span class="o">=</span> <span class="mf">3.141592653589793238462643</span>
+<span class="p">}</span>
+
+<span class="n">radius</span> <span class="o">*</span> <span class="n">Math</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">2</span> <span class="c1">// circumference</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_23">Optional可选类型</h2>
+
+<h3 id="toc_24">尽量不要使用强制解包</h3>
+
+<p class="md_block">
+    <span class="md_line">对于一个可选类型<code>var foo = Type?</code> 不要使用强制解包 </span>
+</p>
+
+<div class="codehilite  highlight"><pre>    <span class="n">foo</span><span class="o">!</span><span class="p">.</span><span class="n">doSomethind</span><span class="p">()</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">使用<code>可选绑定</code>，或者  <code>可选链操作</code></span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">if</span> <span class="k">let</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">foo</span> <span class="p">{</span>
+    <span class="c1">// Use unwrapped `foo` value in here</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// If appropriate, handle the case where the optional is nil</span>
+<span class="p">}</span>
+<span class="c1">//或者</span>
+<span class="c1">// Call the function if `foo` is not nil. If `foo` is nil, ignore we ever tried to make the call</span>
+<span class="n">foo</span><span class="o">?</span><span class="p">.</span><span class="n">callSomethingIfFooIsNotNil</span><span class="p">()</span>
+</pre></div>
+
+<!--block_code_end-->
+<h3 id="toc_25">避免使用隐式可选类型</h3>
+
+<p class="md_block">
+    <span class="md_line">如果 foo 可能为 nil ，尽可能的用 let foo: FooType? 代替 let foo: FooType!（注意：一般情况下，?可以代替!） </span>
+</p>
+
+
+<h2 id="toc_26">Struct Initializers 结构体初始化</h2>
+
+<p class="md_block">
+    <span class="md_line">使用结构体初始化而不是CGGet。。。之类的创建方法</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">let</span> <span class="n">bounds</span> <span class="o">=</span> <span class="bp">CGRect</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="nl">width</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mi">80</span><span class="p">)</span>
+<span class="k">let</span> <span class="n">centerPoint</span> <span class="o">=</span> <span class="bp">CGPoint</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mi">96</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_27">Lazy Initialization</h2>
+
+<p class="md_block">
+    <span class="md_line">对于较大开销的初始化或者配置较多的初始化建议放在加载属性里</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="n">lazy</span> <span class="k">var</span> <span class="nl">locationManager</span><span class="p">:</span> <span class="bp">CLLocationManager</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">makeLocationManager</span><span class="p">()</span>
+
+<span class="n">private</span> <span class="k">func</span> <span class="n">makeLocationManager</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">CLLocationManager</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="n">manager</span> <span class="o">=</span> <span class="bp">CLLocationManager</span><span class="p">()</span>
+  <span class="n">manager</span><span class="p">.</span><span class="n">desiredAccuracy</span> <span class="o">=</span> <span class="n">kCLLocationAccuracyBest</span>
+  <span class="n">manager</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+  <span class="n">manager</span><span class="p">.</span><span class="n">requestAlwaysAuthorization</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">manager</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h1 id="toc_28">Classes and Structures 结构体和类</h1>
+
+<h2 id="toc_29">首选struct而非class</h2>
+
+<p class="md_block">
+    <span class="md_line">在非必需（比如没有生命周期）的时候使用struct，因为多态可以使用protocl实现 继承可以使用组合实现<br /></span>
+    <span class="md_line">值类型容易辨别，更可以用let去推测不可变的行为</span>
+</p>
+
+
+<h2 id="toc_30">只有在必须时才使用self</h2>
+
+<p class="md_block">
+    <span class="md_line">忘掉Objective-C到底时使用self.pro  还是_ivar的访问方式，对于swift内部调用properties或者method省略掉self</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="n">private</span> <span class="k">class</span> <span class="n">History</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nl">events</span><span class="p">:</span> <span class="p">[</span><span class="n">Event</span><span class="p">]</span>
+
+    <span class="k">func</span> <span class="n">rewrite</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">只有在使用闭包或者命名冲突时再加上self</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">extension</span> <span class="n">History</span> <span class="p">{</span>
+    <span class="k">init</span><span class="p">(</span><span class="nl">events</span><span class="p">:</span> <span class="p">[</span><span class="n">Event</span><span class="p">])</span> <span class="p">{</span>
+        <span class="nb">self</span><span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">events</span>
+    <span class="p">}</span>
+
+    <span class="k">var</span> <span class="nl">whenVictorious</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="nb">self</span><span class="p">.</span><span class="n">rewrite</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<blockquote>
+
+<p class="md_block">
+    <span class="md_line">只有在使用闭包时self 增强了被捕获的语义，其它时候是冗余的</span>
+</p>
+
+</blockquote>
+
+<h2 id="toc_31">对于只读的属性或者下标语法，使用隐式的getter方法</h2>
+
+<p class="md_block">
+    <span class="md_line">建议</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">var</span> <span class="nl">myGreatProperty</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">4</span>
+<span class="p">}</span>
+<span class="k">subscript</span><span class="p">(</span><span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">objects</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">不建议完整的写法，比较繁琐</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">var</span> <span class="nl">myGreatProperty</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+    <span class="kr">get</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">4</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">subscript</span><span class="p">(</span><span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span> <span class="p">{</span>
+    <span class="kr">get</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">objects</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_32">请把class默认标记为final</h2>
+
+<p class="md_block">
+    <span class="md_line"> 组合通常比继承更合适，而且不用 继承意味着考虑的更加健壮</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="c1">// Turn any generic type into a reference type using this Box class.</span>
+<span class="n">final</span> <span class="k">class</span> <span class="n">Box</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nl">value</span><span class="p">:</span> <span class="n">T</span> 
+  <span class="k">init</span><span class="p">(</span><span class="n">_</span> <span class="nl">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_33">类型推断</h2>
+
+<p class="md_block">
+    <span class="md_line"> 能让系统推断的类型不要显示指明<br /></span>
+    <span class="md_line">如</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">struct</span> <span class="n">Composite</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">func</span> <span class="n">compose</span><span class="p">(</span><span class="nl">other</span><span class="p">:</span> <span class="n">Composite</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Composite</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Composite</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+ <span class="k">let</span> <span class="nl">num</span><span class="p">:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">4</span> 
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">重构为</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">struct</span> <span class="n">Composite</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">func</span> <span class="n">compose</span><span class="p">(</span><span class="nl">other</span><span class="p">:</span> <span class="n">Composite</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Composite</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Composite</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">let</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">空的字典和空数组的类型 使用<code>类型标记</code> 加强语义</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">var</span> <span class="nl">names</span><span class="p">:</span> <span class="p">[</span><span class="n">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">var</span> <span class="nl">lookup</span><span class="p">:</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">:</span><span class="p">]</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_34">函数声明</h2>
+
+<p class="md_block">
+    <span class="md_line">函数名要简短清晰，如果能保持在一行内，大括号也要保持在一行，如果不能换行并用Tab<code>\b</code>缩进 </span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">func</span> <span class="n">reticulateSplines</span><span class="p">(</span><span class="nl">spline</span><span class="p">:</span> <span class="p">[</span><span class="n">Double</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+  <span class="c1">// reticulate code goes here</span>
+<span class="p">}</span>
+<span class="k">func</span> <span class="n">reticulateSplines</span><span class="p">(</span><span class="nl">spline</span><span class="p">:</span> <span class="p">[</span><span class="n">Double</span><span class="p">],</span> <span class="nl">adjustmentFactor</span><span class="p">:</span> <span class="n">Double</span><span class="p">,</span>
+    <span class="nl">translateConstant</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">comment</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+  <span class="c1">// reticulate code goes here</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h2 id="toc_35">闭包表达式</h2>
+
+<p class="md_block">
+    <span class="md_line">使用尾随闭包提高可读性， </span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="bp">UIView</span><span class="p">.</span><span class="n">animateWithDuration</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nb">self</span><span class="p">.</span><span class="n">myView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">}</span>
+
+<span class="bp">UIView</span><span class="p">.</span><span class="n">animateWithDuration</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span>
+  <span class="nl">animations</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">myView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="p">},</span>
+  <span class="nl">completion</span><span class="p">:</span> <span class="p">{</span> <span class="n">finished</span> <span class="k">in</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">myView</span><span class="p">.</span><span class="n">removeFromSuperview</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">常见的闭包语义可以使用其缩略形式</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">let</span> <span class="n">value</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">.</span><span class="n">map</span> <span class="p">{</span> <span class="err">$</span><span class="mi">0</span> <span class="o">*</span> <span class="mi">2</span> <span class="p">}.</span><span class="n">filter</span> <span class="p">{</span> <span class="err">$</span><span class="mi">0</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">}.</span><span class="n">indexOf</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">value</span> <span class="o">=</span> <span class="n">numbers</span>
+   <span class="p">.</span><span class="n">map</span> <span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">*</span> <span class="mi">2</span><span class="p">}</span>
+   <span class="p">.</span><span class="n">filter</span> <span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">}</span>
+   <span class="p">.</span><span class="n">map</span> <span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">+</span> <span class="mi">10</span><span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<h1 id="toc_36">Syntactic Sugar语法糖</h1>
+
+<p class="md_block">
+    <span class="md_line">对于有语法糖的建议使用，提升可读性<br /></span>
+    <span class="md_line">如</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">var</span> <span class="nl">deviceModels</span><span class="p">:</span> <span class="p">[</span><span class="n">String</span><span class="p">]</span>
+<span class="k">var</span> <span class="nl">employees</span><span class="p">:</span> <span class="p">[</span><span class="nl">Int</span><span class="p">:</span> <span class="n">String</span><span class="p">]</span>
+<span class="k">var</span> <span class="nl">faxNumber</span><span class="p">:</span> <span class="n">Int</span><span class="o">?</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">而不是</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="k">var</span> <span class="nl">deviceModels</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span>
+<span class="k">var</span> <span class="nl">employees</span><span class="p">:</span> <span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span>
+<span class="k">var</span> <span class="nl">faxNumber</span><span class="p">:</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Int</span><span class="o">&gt;</span>
+</pre></div>
+
+<!--block_code_end-->
+<h1 id="toc_37">内存管理</h1>
+
+<p class="md_block">
+    <span class="md_line">对于class类型需要注意内存管理 <br /></span>
+    <span class="md_line">普通的闭包建议使用[weak self] 或者[unowned self]  对于异步的闭包建议使用 <code>[weak self]</code>  and  <code>guard let strongSelf = self else { return }</code>搭配使用<br><br /></span>
+    <span class="md_line">weak 避免出现循环引用， strongself  避免在异步回调中 捕获列表中捕获的变量被析构</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="n">resource</span><span class="p">.</span><span class="n">request</span><span class="p">().</span><span class="n">onComplete</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="nb">self</span><span class="p">]</span> <span class="n">response</span> <span class="k">in</span>
+  <span class="n">guard</span> <span class="k">let</span> <span class="n">strongSelf</span> <span class="o">=</span> <span class="nb">self</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+  <span class="k">let</span> <span class="n">model</span> <span class="o">=</span> <span class="n">strongSelf</span><span class="p">.</span><span class="n">updateModel</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+  <span class="n">strongSelf</span><span class="p">.</span><span class="n">updateUI</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<hr>
+
+<h1 id="toc_38">对于顶级类型，函数，变量定义，明确的列出权限控制</h1>
+
+<p class="md_block">
+    <span class="md_line">对于全局变量 顶级函数，类型，永远应该有着详尽的权限控制说明符</span>
+</p>
+
+<div class="codehilite  highlight"><pre><span class="n">public</span> <span class="k">var</span> <span class="nl">whoopsGlobalState</span><span class="p">:</span> <span class="n">Int</span>
+<span class="n">internal</span> <span class="k">struct</span> <span class="n">TheFez</span> <span class="p">{}</span>
+<span class="n">private</span> <span class="k">func</span> <span class="n">doTheThings</span><span class="p">(</span><span class="nl">things</span><span class="p">:</span> <span class="p">[</span><span class="n">Thing</span><span class="p">])</span> <span class="p">{}</span>
+</pre></div>
+
+<!--block_code_end-->
+<blockquote>
+
+<p class="md_block">
+    <span class="md_line">参考自 <br /></span>
+    <span class="md_line">1. <a class="md_compiled" href="https://github.com/github/swift-style-guide">Github</a><br /></span>
+    <span class="md_line">2. <a class="md_compiled" href="https://github.com/linkedin/swift-style-guide">LinkedIn</a><br /></span>
+    <span class="md_line">3. <a class="md_compiled" href="https://github.com/prolificinteractive/swift-style-guide">Prolificinterative</a><br /></span>
+    <span class="md_line">4. <a class="md_compiled" href="https://github.com/raywenderlich/swift-style-guide">Raywenderlich</a></span>
+</p>
+
+</blockquote>
+    </div>
+</div>
+
+
+        <script src="https://static.farbox.com/service/static_3rd/staticfile/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS_HTML-full.js" type= "text/javascript">
+           MathJax.Hub.Config({
+               tex2jax: {
+                    inlineMath: [ ['$','$']]
+                    },
+                "HTML-CSS": {
+                    imageFont: null,
+                    availableFonts: ["TeX"],
+                    preferredFont: "TeX"
+                },
+                extensions: ["jsMath2jax.js", 'tex2jax.js', 'MatchWebFonts.js'],
+                messageStyle: "none"
+            });
+        </script>
+        
+
+</body>
+</html>
